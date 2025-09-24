@@ -54,6 +54,22 @@ $ ./run_electrum_ltm
 $ python3 ltm_balance_proper.py bc1qvhrr2sufl4q0xukh60fa6k7nq4gchjn5tz45da
 ```
 
+### HD 지갑 생성 도구
+
+새로운 LTM HD 지갑을 생성하고 20개 주소 확인:
+
+```bash
+$ python3 create_ltm_hd_wallet.py
+```
+
+### xpub 잔액 조회 도구
+
+xpub에서 파생된 주소들의 잔액을 일괄 확인:
+
+```bash
+$ python3 check_xpub_balance.py <xpub/ypub/zpub>
+```
+
 ### 주요 변경사항
 
 1. **네트워크 설정**: Bitcoin에서 LTM으로 완전 변경
@@ -215,8 +231,10 @@ $ python3 test_ltm_wallet.py          # LTM 지갑 기능 테스트
 
 LTM 네트워크 연결 테스트:
 ```
-$ python3 ltm_auth_test.py            # 서버 연결 및 인증 테스트
-$ python3 ltm_balance_proper.py <주소>  # 실제 잔액 조회 테스트
+$ python3 ltm_auth_test.py                    # 서버 연결 및 인증 테스트
+$ python3 ltm_balance_proper.py <주소>          # 실제 잔액 조회 테스트
+$ python3 create_ltm_hd_wallet.py             # HD 지갑 생성 및 테스트
+$ python3 check_xpub_balance.py <xpub>        # xpub 잔액 일괄 확인
 ```
 
 ## Creating Binaries
@@ -242,6 +260,19 @@ LTM 네트워크와 관련된 주요 파일들:
 - **`run_electrum_ltm`**: LTM 전용 실행 스크립트
 - **`run_electrum_ltm_simple`**: LTM 간단 실행 스크립트
 
+## LTM 도구 파일
+
+LTM 네트워크 작업을 위한 유틸리티 도구들:
+
+- **`ltm_balance_proper.py`**: 개별 bc1 주소 잔액 조회
+- **`create_ltm_hd_wallet.py`**: HD 지갑 생성 도구 (BIP32 P2WPKH)
+- **`check_xpub_balance.py`**: xpub/ypub/zpub 잔액 일괄 확인
+- **`ltm_auth_test.py`**: 서버 인증 및 연결 테스트
+- **테스트 파일들**: 
+  - `test_ltm_bc1_format.py`: bc1 주소 형식 테스트
+  - `test_ltm_mainnet_only.py`: 메인넷 전용 설정 테스트
+  - `test_ltm_wallet.py`: 지갑 기능 테스트
+
 ## 주요 구현 특징
 
 1. **Bitcoin 호환성**: bc1 주소 형식으로 Bitcoin과 호환
@@ -249,6 +280,38 @@ LTM 네트워크와 관련된 주요 파일들:
 3. **프라이빗 노드 지원**: 인증이 필요한 프라이빗 ElectrumX 서버 지원
 4. **메인넷 전용**: 테스트넷 없는 단순한 네트워크 구조
 5. **실시간 잔액 조회**: 명령줄 도구로 즉시 잔액 확인
+6. **HD 지갑 지원**: BIP32/BIP84 표준 준수 계층적 결정적 지갑
+7. **xpub 분석**: 확장 공개키에서 파생된 주소들의 일괄 잔액 확인
+8. **완전한 도구 세트**: 지갑 생성부터 잔액 조회까지 모든 기능 제공
+
+## 사용 예시
+
+### 실제 사용 사례
+
+최근 테스트에서 확인된 실제 잔액들:
+
+```
+주소: bc1qvhrr2sufl4q0xukh60fa6k7nq4gchjn5tz45da
+잔액: 7,000.00002418 LTM
+
+xpub: zpub6msz3PWEjrnvUYwm7B59KMzKB1Lk2Qjc7cXEKuAmCnzsbwZN3DL8gPNwLcYEtwdSR9BFrHUxuh9N6x7rZPxED5YrnHUtXXB7ckyH1HJvKuK
+총 잔액: 60,000.00009844 LTM (19개 활성 주소)
+```
+
+### HD 지갑 생성
+
+```bash
+$ python3 create_ltm_hd_wallet.py
+# 12단어 니모닉과 20개 bc1 주소 생성
+# 파일로 안전하게 저장
+```
+
+### 대량 잔액 조회
+
+```bash
+$ python3 check_xpub_balance.py zpub6msz3PWE...
+# xpub에서 파생된 20개 주소의 잔액을 한 번에 확인
+```
 
 ## Contributing
 

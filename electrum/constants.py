@@ -269,7 +269,7 @@ class LTMMainnet(AbstractNet):
     SEGWIT_HRP = "bc"          # Use Bitcoin's bc1 address format for compatibility
     BOLT11_HRP = SEGWIT_HRP
     GENESIS = "20a1cb14930e9cc8f0b7e6872b0630a86c135a6903aec70b6c4e63457c7948a8"  # LTM Genesis Block
-    DEFAULT_PORTS = {'t': '50009', 's': '50010'}  # LTM specific ports
+    DEFAULT_PORTS = {'t': '50008', 's': '50009'}  # LTM specific ports (updated)
     BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = 0  # Lightning support can be added later
     
     # Block time: 1 minute (vs Bitcoin's 10 minutes)

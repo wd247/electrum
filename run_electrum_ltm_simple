@@ -5,11 +5,8 @@
 # LTM (Laptop Mining) 코인용 Electrum 지갑
 #
 
-import sys
 import os
-
-# 환경 설정
-os.environ['ELECTRUM_NETWORK'] = 'ltm'
+import sys
 
 # LTM 네트워크 정보 출력
 def show_ltm_info():
@@ -17,44 +14,24 @@ def show_ltm_info():
     print("=" * 50)
     print("📋 LTM 네트워크 정보:")
     print(f"   제네시스 블록: 20a1cb14930e9cc8f0b7e6872b0630a86c135a6903aec70b6c4e63457c7948a8")
-    print(f"   제네시스 메시지: David project begins")
+    print(f"   제네시스 메시지: David project begins")  
     print(f"   블록 시간: 1분 (적응형 난이도)")
     print(f"   알고리즘: SHA256d")
-    print(f"   서버: ltm-wallet.gnc.ne.kr:50009")
-    print(f"   탐색기: http://ltm-explorer.gnc.ne.kr")
+    print(f"   서버: ltm-wallet.gnc.ne.kr:50008,50009")
     print("=" * 50)
 
-def show_help():
-    show_ltm_info()
-    print("\n📖 사용법:")
-    print("   ./run_electrum_ltm_simple        - LTM 네트워크 정보 표시")
-    print("   ./run_electrum_ltm_simple --gui  - GUI 모드 (준비중)")
-    print("   ./run_electrum_ltm_simple --cli  - CLI 모드 (준비중)")
-    print("\n⚠️  현재 상태: 설정 완료, Electrum 의존성 설치 필요")
-    print("\n🔧 설정된 LTM 파일들:")
-    print("   - /electrum/chains/ltm/servers.json")
-    print("   - /electrum/chains/ltm/checkpoints.json") 
-    print("   - /electrum/constants.py (LTMMainnet, LTMTestnet 클래스)")
-    print("\n💡 다음 단계:")
-    print("   1. Electrum 의존성 완전 설치")
-    print("   2. LTM 서버 연결 테스트")
-    print("   3. 지갑 생성 및 동기화")
+# LTM 네트워크를 기본으로 설정하고 원본 run_electrum 실행
+if not any(arg.startswith('--') and ('mainnet' in arg or 'testnet' in arg or 'regtest' in arg or 'signet' in arg or 'ltm' in arg) for arg in sys.argv):
+    sys.argv.append('--ltm')
 
-def main():
-    if len(sys.argv) > 1:
-        if sys.argv[1] in ['--help', '-h']:
-            show_help()
-            return
-        elif sys.argv[1] == '--gui':
-            print("🚧 GUI 모드는 준비 중입니다...")
-            show_ltm_info()
-            return
-        elif sys.argv[1] == '--cli':
-            print("🚧 CLI 모드는 준비 중입니다...")
-            show_ltm_info() 
-            return
-    
-    show_help()
+# 시작 정보 표시
+show_ltm_info()
+print("� LTM 네트워크로 Electrum 시작 중...")
+print()
+
+# 원본 run_electrum 실행
+script_dir = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, script_dir)
 
 if __name__ == '__main__':
-    main()
+    exec(open(os.path.join(script_dir, 'run_electrum')).read())

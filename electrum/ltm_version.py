@@ -1,0 +1,15 @@
+# LTM Electrum Version Info
+
+LTM_ELECTRUM_VERSION = '4.6.2-ltm'
+LTM_GENESIS_MESSAGE = "David project begins"
+LTM_GENESIS_HASH = "20a1cb14930e9cc8f0b7e6872b0630a86c135a6903aec70b6c4e63457c7948a8"
+LTM_GENESIS_TIME = 1756341124  # 2025-07-27
+
+# LTM Network Info
+LTM_BLOCK_TIME = 60  # 1 minute
+LTM_ADAPTIVE_DIFFICULTY = True
+LTM_LAPTOP_MINING_FRIENDLY = True
+
+# LTM Servers
+LTM_PRIMARY_SERVER = "ltm-wallet.gnc.ne.kr:50009"
+LTM_EXPLORER_URL = "http://ltm-explorer.gnc.ne.kr"

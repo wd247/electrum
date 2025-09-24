@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+# -*- mode: python -*-
+#
+# Electrum-LTM - Laptop Mining Coin Wallet
+# Based on Electrum Bitcoin Wallet
+#
+
+import os
+import sys
+
+# Script directory path
+script_dir = os.path.dirname(os.path.realpath(__file__))
+is_bundle = getattr(sys, 'frozen', False)
+is_local = not is_bundle and os.path.exists(os.path.join(script_dir, "electrum.desktop"))
+is_android = 'ANDROID_DATA' in os.environ
+
+# Allow compatibility with Electrum
+if is_local or is_android:
+    sys.path.insert(0, os.path.join(script_dir, 'packages'))
+
+def main():
+    # Set default network to LTM
+    if '--testnet' in sys.argv:
+        network = 'ltm-testnet'
+    elif '--ltm' in sys.argv or not any(arg.startswith('--') and 'net' in arg for arg in sys.argv):
+        network = 'ltm'
+    else:
+        network = None
+    
+    if network and f'--{network}' not in sys.argv:
+        sys.argv.append(f'--{network}')
+    
+    # Import and run electrum
+    try:
+        from electrum.main import main as electrum_main
+        electrum_main()
+    except ImportError as e:
+        print(f"Error importing Electrum: {e}")
+        print("Make sure Electrum is properly installed")
+        sys.exit(1)
+
+if __name__ == '__main__':
+    main()

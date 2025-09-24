@@ -1,0 +1,14 @@
+{
+    "ltm-wallet.gnc.ne.kr": {
+        "pruning": "-",
+        "s": "50010",
+        "t": "50009", 
+        "version": "1.4.2"
+    },
+    "localhost": {
+        "pruning": "-",
+        "s": "50010",
+        "t": "50009",
+        "version": "1.4.2"
+    }
+}

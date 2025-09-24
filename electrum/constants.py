@@ -258,6 +258,44 @@ class BitcoinMutinynet(BitcoinTestnet):
     LN_DNS_SEEDS = []
 
 
+class LTMMainnet(AbstractNet):
+    """LTM (Laptop Mining) Coin - SHA256d with adaptive difficulty for low-spec computers"""
+    
+    NET_NAME = "ltm"
+    TESTNET = False
+    WIF_PREFIX = 0x80          # Same as Bitcoin for compatibility
+    ADDRTYPE_P2PKH = 0         # Standard P2PKH addresses start with '1'
+    ADDRTYPE_P2SH = 5          # Standard P2SH addresses start with '3'  
+    SEGWIT_HRP = "bc"          # Use Bitcoin's bc1 address format for compatibility
+    BOLT11_HRP = SEGWIT_HRP
+    GENESIS = "20a1cb14930e9cc8f0b7e6872b0630a86c135a6903aec70b6c4e63457c7948a8"  # LTM Genesis Block
+    DEFAULT_PORTS = {'t': '50009', 's': '50010'}  # LTM specific ports
+    BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = 0  # Lightning support can be added later
+    
+    # Block time: 1 minute (vs Bitcoin's 10 minutes)
+    BLOCK_TARGET_SPACING = 60  # seconds
+    
+    XPRV_HEADERS = {
+        'standard':    0x0488ade4,  # xprv - same as Bitcoin for compatibility
+        'p2wpkh-p2sh': 0x049d7878,  # yprv
+        'p2wsh-p2sh':  0x0295b005,  # Yprv
+        'p2wpkh':      0x04b2430c,  # zprv
+        'p2wsh':       0x02aa7a99,  # Zprv
+    }
+    XPRV_HEADERS_INV = inv_dict(XPRV_HEADERS)
+    XPUB_HEADERS = {
+        'standard':    0x0488b21e,  # xpub - same as Bitcoin for compatibility
+        'p2wpkh-p2sh': 0x049d7cb2,  # ypub
+        'p2wsh-p2sh':  0x0295b43f,  # Ypub
+        'p2wpkh':      0x04b24746,  # zpub
+        'p2wsh':       0x02aa7ed3,  # Zpub
+    }
+    XPUB_HEADERS_INV = inv_dict(XPUB_HEADERS)
+    BIP44_COIN_TYPE = 9999  # TODO: Register proper coin type
+    LN_REALM_BYTE = 0
+    LN_DNS_SEEDS = []  # No Lightning Network initially
+
+
 NETS_LIST = tuple(all_subclasses(AbstractNet))  # type: Sequence[Type[AbstractNet]]
 NETS_LIST = tuple(sorted(NETS_LIST, key=lambda x: x.NET_NAME))
 
